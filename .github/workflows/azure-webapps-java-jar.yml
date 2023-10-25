@@ -20,17 +20,15 @@
 name: Build and deploy JAR app to Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: your-app-name    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: WorldGuard    # set this to the name of your Azure Web App
   JAVA_VERSION: '11'                  # set this to the Java version to use
-  DISTRIBUTION: zulu                  # set this to the Java distribution
+  DISTRIBUTION: gradlew                  # set this to the Java distribution
 
 on:
   push:
     branches: [ "master" ]
   workflow_dispatch:
 
-permissions:
-  contents: read
 
 jobs:
   build:
@@ -44,10 +42,10 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.DISTRIBUTION }}
-          cache: 'maven'
+          cache: 'gradlew'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build with gradlew
+        run: gradlew clean build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
